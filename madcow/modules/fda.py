@@ -81,7 +81,7 @@ class Main(Module):
                                 fRelease = " ".join(innerTd.contents[0].split())
                             except AttributeError:
                                 fRelease = "Unknown"
-                            outputItems.append(fTitle+" :: "+currentDateString+" ("+fDistributor+") ["+fRelease+"]")
+                            outputItems.append('\x02'+fTitle+"\x0f \x0303"+currentDateString+"\x0301 (\x0306\x02"+fDistributor+"\x0f\x0301) [\x0302"+fRelease+"\x0301]")
                         
                         innerRow = innerRow.nextSibling
     
