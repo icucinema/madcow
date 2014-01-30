@@ -29,7 +29,7 @@ class IRCCatRequestHandler(StreamRequestHandler):
             elif recipient[0] == '@':
                 recipients.add(recipient[1:])
             elif recipient[0] == '#':
-                recipients.add(recipient[1:])
+                recipients.add(recipient)
             else:
                 # nope
                 self.wfile.write('ERROR recipient {} invalid\n'.format(recipient))
