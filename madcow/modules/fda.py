@@ -86,8 +86,10 @@ class Main(Module):
                         innerRow = innerRow.nextSibling
     
             row = row.nextSibling
+
+        printItems = outputItems[:min(5, len(outputItems))]
         
-        return '\n'.join(outputItems)
+        return '\n'.join(printItems)
 
     def normalize(self, name):
         """Normalize a movie title for easy comparison"""
