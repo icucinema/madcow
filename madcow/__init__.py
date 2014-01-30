@@ -42,6 +42,7 @@ from madcow.conf import settings
 from madcow.util.color import ColorLib
 from madcow.util.auth import AuthLib
 from madcow.util.text import encode, decode, set_encoding, get_encoding
+from madcow.irccat import IRCCatRequestHandler, IRCCatServer
 
 VERSION = 2, 3, 0
 
@@ -113,6 +114,12 @@ class Madcow(object):
                     self.log.warn('%r pattern did not compile', pattern)
                     continue
                 self.ignore_res.append(regex)
+
+        # irccat hack
+        self.irccat_server = irccat.IRCCatServer(self, ('localhost', 22222), irccat.IRCCatRequestHandler)
+        self.irccat_thread = threading.Thread(target=self.irccat_server.serve_forever)
+        self.irccat_thread.daemon = True
+        self.irccat_thread.start()
 
     @property
     def prefix(self):
