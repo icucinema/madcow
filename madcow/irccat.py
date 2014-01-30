@@ -15,6 +15,10 @@ class IRCCatRequestHandler(StreamRequestHandler):
             self.handle_line(ln)
 
     def handle_line(self, line):
+        if len(line) < 4 or ' ' not in line:
+            self.wfile.write('ERROR line empty or invalid\n')
+            return
+        
         recipients_str, _, line = line.partition(' ')
         base_recipients = recipients_str.split(',')
 
@@ -24,13 +28,19 @@ class IRCCatRequestHandler(StreamRequestHandler):
                 recipients = recipients | set(self.madcow.channels)
             elif recipient[0] == '@':
                 recipients.add(recipient[1:])
+            elif recipient[0] == '#':
+                recipients.add(recipient[1:])
             else:
-                recipients.add(recipient)
+                # nope
+                self.wfile.write('ERROR recipient {} invalid\n'.format(recipient))
+                continue
 
         for recipient in recipients:
             request = Request(sendto=recipient)
             print "Sending", line, "to", recipient
             self.madcow.output(line, request)
+            
+        self.wfile.write('OK\n')
         
 
 class IRCCatServer(ThreadingMixIn, TCPServer):
