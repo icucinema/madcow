@@ -21,7 +21,7 @@ class IRCCatRequestHandler(StreamRequestHandler):
         recipients = set()
         for recipient in base_recipients:
             if recipient == '#*':
-                recipients = receipients | set(self.madcow.channels)
+                recipients = recipients | set(self.madcow.channels)
             elif recipient[0] == '@':
                 recipients.add(recipient[1:])
             else:
